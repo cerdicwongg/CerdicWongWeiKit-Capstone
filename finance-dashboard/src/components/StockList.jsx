@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { AllStockList } from '../AllStockList';
+import { StockContext } from '../StockContext';
 
 const StockList = () => {
-  const { stocks } = useContext(AllStockList);
+  const { stocks } = useContext(StockContext);
 
   return (
     <div>

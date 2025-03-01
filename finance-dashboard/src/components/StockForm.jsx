@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { AllStockList } from '../AllStockList';
+import { StockContext } from '../StockContext';
 
 const StockForm = () => {
-  const { addStock } = useContext(AllStockList);
+  const { addStock } = useContext(StockContext);
   const [symbol, setSymbol] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
