@@ -25,7 +25,8 @@ const StockForm = () => {
       return;
     }
 
-    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo`;
+    const apiKey = 'KW7GTMKGG60VGQFT';
+    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
 
     try {
       const response = await fetch(url);
