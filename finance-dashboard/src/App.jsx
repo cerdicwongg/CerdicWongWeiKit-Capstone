@@ -1,7 +1,7 @@
 // src/App.jsx
 import React from 'react';
 import './App.css';
-import { StockProvider } from './StockContext.jsx';
+import { StockProvider } from './AllStockList.jsx';
 import StockForm from './components/StockForm.jsx';
 import StockList from './components/StockList.jsx';
 

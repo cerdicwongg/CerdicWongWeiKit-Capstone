@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-export const StockContext = createContext();
+export const AllStockList = createContext();
 
 export const StockProvider = ({ children }) => {
   const [stocks, setStocks] = useState([]);
@@ -10,8 +10,8 @@ export const StockProvider = ({ children }) => {
   };
 
   return (
-    <StockContext.Provider value={{ stocks, addStock }}>
+    <AllStockList.Provider value={{ stocks, addStock }}>
       {children}
-    </StockContext.Provider>
+    </AllStockList.Provider>
   );
 };
