@@ -5,17 +5,13 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Arial", "Helvetica", sans-serif;
   background-color: #f5f5f5;
   color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-}
-
-p {
-  padding-top: 10px;
 }
 
 .app-container {
@@ -25,6 +21,7 @@ p {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 h1 {
@@ -34,28 +31,63 @@ h1 {
 }
 
 .stock-form-container {
-  margin-bottom: 20px; 
-  padding-bottom: 20px; 
-  border-bottom: 2px solid #ddd; 
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+.stock-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  flex: 1;
+  min-width: 150px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 6px;
+  margin-left: 4px;
+  position: relative;
+  left: 0;
+}
+
+input,
+button,
+table {
+  font-family: inherit;
 }
 
 input[type="text"],
-input[type="number"],
-button {
+input[type="number"] {
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 200px;
-  margin: 5px;
   box-sizing: border-box;
 }
 
 button {
-  width: auto;
+  flex-shrink: 0;
+  height: 42px;
+  padding: 10px 15px;
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  white-space: nowrap;
 }
 
 button:hover {

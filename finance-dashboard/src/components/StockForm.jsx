@@ -1,85 +1,104 @@
 import React, { useState, useContext } from 'react';
-import { AllStockList } from '../AllStockList';
+import { StockContext } from '../StockContext';
 
 const StockForm = () => {
-  const { addStock } = useContext(AllStockList);
+  const { addStock } = useContext(StockContext);
   const [symbol, setSymbol] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState({ symbol: '', quantity: '', price: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError({ symbol: '', quantity: '', price: '' });
 
-    // Reset errors before submission
-    setError('');
+    let hasError = false;
 
-    // Input validation for quantity and price
+    if (!symbol.trim()) {
+      setError((prev) => ({ ...prev, symbol: 'Stock symbol is required.' }));
+      hasError = true;
+    }
+
     if (quantity <= 0 || isNaN(quantity)) {
-      setError('Quantity must be a positive number.');
-      return;
+      setError((prev) => ({ ...prev, quantity: 'Quantity must be a positive number.' }));
+      hasError = true;
     }
 
     if (price <= 0 || isNaN(price)) {
-      setError('Purchase price must be a positive number.');
-      return;
+      setError((prev) => ({ ...prev, price: 'Purchase price must be a positive number.' }));
+      hasError = true;
     }
 
-    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo`;
+    if (hasError) return;
+
+    const apiKey = 'KW7GTMKGG60VGQFT';
+    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
 
     try {
       const response = await fetch(url);
       const data = await response.json();
 
-      if (data["Global Quote"]) {
+      if (data["Global Quote"] && data["Global Quote"]["05. price"]) {
         const currentPrice = parseFloat(data["Global Quote"]["05. price"]);
+        if (isNaN(currentPrice)) {
+          throw new Error('Invalid stock data received');
+        }
+
         addStock({
           symbol,
-          quantity,
-          price,
+          quantity: parseFloat(quantity),
+          price: parseFloat(price),
           currentPrice,
         });
 
-        // Reset form fields after successful submission
         setSymbol('');
         setQuantity('');
         setPrice('');
       } else {
-        setError('Invalid stock symbol or data not found');
+        setError((prev) => ({ ...prev, symbol: 'Invalid stock symbol or data not found.' }));
       }
     } catch (error) {
-      setError('Error fetching stock data');
+      setError((prev) => ({ ...prev, symbol: 'Error fetching stock data. Please check the symbol and try again.' }));
     }
   };
 
   return (
     <div className="stock-form-container">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={symbol}
-          onChange={(e) => setSymbol(e.target.value)}
-          placeholder="Stock Symbol"
-          required
-        />
-        <input
-          type="number"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          placeholder="Quantity"
-          required
-        />
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Purchase Price"
-          required
-        />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">
-          Add Stock
-        </button>
+      <form onSubmit={handleSubmit} className="stock-form">
+        <div className="input-group">
+          <input
+            type="text"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            placeholder="Stock Symbol"
+            required
+          />
+          {error.symbol && <p className="error">{error.symbol}</p>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            placeholder="Quantity"
+            required
+          />
+          {error.quantity && <p className="error">{error.quantity}</p>}
+        </div>
+
+        <div className="input-group">
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Purchase Price"
+            required
+          />
+          {error.price && <p className="error">{error.price}</p>}
+        </div>
+
+        <button type="submit">Add Stock</button>
       </form>
     </div>
   );
