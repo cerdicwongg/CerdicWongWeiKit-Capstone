@@ -8,7 +8,7 @@ function App() {
   return (
     <StockProvider>
       <div className="app-container">
-        <h1>Finance Dashboard <img src="/finance-image.png" alt="Finance Image" height="32" width="32" /></h1>
+        <h1>Finance Dashboard <img src="finance-image.png" alt="Finance Image" height="32" width="32" /></h1>
         <StockForm />
         <StockList />
       </div>
